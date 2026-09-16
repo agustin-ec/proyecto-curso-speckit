@@ -1,1 +1,1 @@
-"""Model Context Protocol (MCP) tools package."""
+"""MCP tools package."""

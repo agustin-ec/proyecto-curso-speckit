@@ -20,8 +20,35 @@ class Settings(BaseSettings):
     # Persistence settings (Constitution Article III.2)
     DATABASE_URL: str = "sqlite:///./gastos.db"
 
-    # MCP demo user fallback for stdio transport (Constitution Article VI.4)
+    # Logging settings
+    LOG_LEVEL: str = "INFO"
+
+    # MCP demo user fallback for stdio transport and server URLs (Constitution Article VI.4)
     DEMO_USER_EMAIL: str = "demo@gastos.local"
+    MCP_DEMO_EMAIL: str = "demo@gastos.local"
+    MCP_DEMO_PASSWORD: str = "demo1234"
+    MCP_ISSUER_URL: str = "http://127.0.0.1:8000"
+    MCP_RESOURCE_URL: str = "http://127.0.0.1:8000/mcp"
+
+    @property
+    def mcp_demo_email(self) -> str:
+        return self.MCP_DEMO_EMAIL
+
+    @property
+    def mcp_demo_password(self) -> str:
+        return self.MCP_DEMO_PASSWORD
+
+    @property
+    def mcp_issuer_url(self) -> str:
+        return self.MCP_ISSUER_URL
+
+    @property
+    def mcp_resource_url(self) -> str:
+        return self.MCP_RESOURCE_URL
+
+    @property
+    def log_level(self) -> str:
+        return self.LOG_LEVEL
 
 
 settings = Settings()

@@ -124,13 +124,13 @@ description: "Task list for Sistema de Control de Gastos Personales implementati
 
 ### Tests for User Story 4
 
-- [ ] T032 [P] [US4] Create MCP test suite in `tests/test_mcp_gastos.py` validating successful expense creation, list retrieval, structured error dictionaries on invalid category and limit exceeded, and identity resolution from token per Constitution Article VI and VII.6
+- [X] T032 [P] [US4] Create MCP test suite in `tests/test_mcp_gastos.py` validating successful expense creation, list retrieval, structured error dictionaries on invalid category and limit exceeded, and identity resolution from token per Constitution Article VI and VII.6
 
 ### Implementation for User Story 4
 
-- [ ] T033 [P] [US4] Implement MCP authentication helper in `app/mcp/auth.py` to extract and verify Bearer JWT token from `Authorization` header in `streamable-http` requests, with documented fallback to `DEMO_USER_EMAIL` for `stdio` transport per Constitution Article VI.4
-- [ ] T034 [US4] Implement MCP tools in `app/mcp/tools/gastos.py` defining `registrar_gasto(descripcion: str, monto: float, categoria: str)` and `listar_gastos(skip: int = 0, limit: int = 20)` with actionable descriptions, delegating directly to `app/services/gastos.py` and capturing business exceptions into `{"error": str(e)}` per Constitution Article VI.1, VI.2, and VI.3
-- [ ] T035 [US4] Implement MCP server configuration and ASGI app setup in `app/mcp/server.py` using the official `mcp` SDK to expose tools over `streamable-http` per `specs/001-control-gastos/contracts/mcp-tools.md`
+- [X] T033 [P] [US4] Implement MCP authentication helper in `app/mcp/auth.py` to extract and verify Bearer JWT token from `Authorization` header in `streamable-http` requests, with documented fallback to `DEMO_USER_EMAIL` for `stdio` transport per Constitution Article VI.4
+- [X] T034 [US4] Implement MCP tools in `app/mcp/tools/gastos.py` defining `registrar_gasto(descripcion: str, monto: float, categoria: str)` and `listar_gastos(skip: int = 0, limit: int = 20)` with actionable descriptions, delegating directly to `app/services/gastos.py` and capturing business exceptions into `{"error": str(e)}` per Constitution Article VI.1, VI.2, and VI.3
+- [X] T035 [US4] Implement MCP server configuration and ASGI app setup in `app/mcp/server.py` using the official `mcp` SDK to expose tools over `streamable-http` per `specs/001-control-gastos/contracts/mcp-tools.md`
 
 **Checkpoint**: User Stories 1, 2, 3, and 4 are complete with functional parity between REST API and MCP interfaces.
 
