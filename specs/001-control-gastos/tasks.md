@@ -23,10 +23,10 @@ description: "Task list for Sistema de Control de Gastos Personales implementati
 
 **Purpose**: Project initialization, directory structure, dependency definitions, and compatibility groundwork.
 
-- [ ] T001 Create project directory structure for packages `app/core/`, `app/models/`, `app/schemas/`, `app/repositories/`, `app/services/`, `app/routers/`, `app/utils/`, `app/mcp/tools/`, `tests/`, and `alembic/versions/` per `specs/001-control-gastos/plan.md`
-- [ ] T002 [P] Create `pyproject.toml` declaring dependencies (`fastapi`, `uvicorn[standard]`, `sqlalchemy>=2.0`, `alembic`, `pyjwt`, `passlib[bcrypt]`, `bcrypt<4.1`, `pydantic-settings`, `email-validator`, `python-multipart`, `mcp`, `pytest`, `pytest-cov`, `httpx`) and configuring coverage exclusions in `[tool.coverage.run] omit` (`main.py`, `mcp/server.py`, `mcp/auth.py`, `logging_config.py`) per Constitution Article VII.3
-- [ ] T003 [P] Create `.env.example` in repository root documenting configuration variables `SECRET_KEY`, `DATABASE_URL=sqlite:///./gastos.db`, `ACCESS_TOKEN_EXPIRE_MINUTES=60`, and `DEMO_USER_EMAIL=demo@gastos.local` per Constitution Article IV.3
-- [ ] T004 [P] Create `tests/__init__.py` to enable package-level test imports (`from tests.test_gastos import RepositorioFalso`) as mandated by Constitution Article VIII.1
+- [X] T001 Create project directory structure for packages `app/core/`, `app/models/`, `app/schemas/`, `app/repositories/`, `app/services/`, `app/routers/`, `app/utils/`, `app/mcp/tools/`, `tests/`, and `alembic/versions/` per `specs/001-control-gastos/plan.md`
+- [X] T002 [P] Create `pyproject.toml` declaring dependencies (`fastapi`, `uvicorn[standard]`, `sqlalchemy>=2.0`, `alembic`, `pyjwt`, `passlib[bcrypt]`, `bcrypt<4.1`, `pydantic-settings`, `email-validator`, `python-multipart`, `mcp`, `pytest`, `pytest-cov`, `httpx`) and configuring coverage exclusions in `[tool.coverage.run] omit` (`main.py`, `mcp/server.py`, `mcp/auth.py`, `logging_config.py`) per Constitution Article VII.3
+- [X] T003 [P] Create `.env.example` in repository root documenting configuration variables `SECRET_KEY`, `DATABASE_URL=sqlite:///./gastos.db`, `ACCESS_TOKEN_EXPIRE_MINUTES=60`, and `DEMO_USER_EMAIL=demo@gastos.local` per Constitution Article IV.3
+- [X] T004 [P] Create `tests/__init__.py` to enable package-level test imports (`from tests.test_gastos import RepositorioFalso`) as mandated by Constitution Article VIII.1
 
 ---
 
@@ -36,13 +36,13 @@ description: "Task list for Sistema de Control de Gastos Personales implementati
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T005 Implement environment settings management in `app/core/config.py` using `pydantic_settings.BaseSettings` reading `SECRET_KEY`, `DATABASE_URL`, `ACCESS_TOKEN_EXPIRE_MINUTES`, and `DEMO_USER_EMAIL` from `.env`
-- [ ] T006 [P] Implement password hashing and JWT utility functions in `app/core/security.py` using `passlib.context.CryptContext(schemes=["bcrypt"])` and `pyjwt` (HS256) per Constitution Article IV.1 and IV.2
-- [ ] T007 [P] Implement SQLAlchemy database engine, session factory, `Base` declarative class, and `get_db` generator dependency in `app/database.py` with SQLite conditional `connect_args={"check_same_thread": False}` per Constitution Article III.2
-- [ ] T008 [P] Define `CategoriaGasto` Enum with values `"comida"`, `"transporte"`, `"entretenimiento"`, `"otros"` and `CATEGORIAS_VALIDAS` set in `app/models/enums.py` per `specs/001-control-gastos/data-model.md`
-- [ ] T009 [P] Implement pure helper utility functions in `app/utils/helpers.py` without importing services, routers, or repositories per Constitution Article I.4
-- [ ] T010 Setup Alembic migration environment in `alembic.ini` and `alembic/env.py` configured to target `app.database.Base.metadata`
-- [ ] T011 [P] Create shared test fixtures in `tests/conftest.py` providing an isolated in-memory SQLite database session (`sqlite:///:memory:`) and FastAPI `TestClient` per Constitution Article VII.4
+- [X] T005 Implement environment settings management in `app/core/config.py` using `pydantic_settings.BaseSettings` reading `SECRET_KEY`, `DATABASE_URL`, `ACCESS_TOKEN_EXPIRE_MINUTES`, and `DEMO_USER_EMAIL` from `.env`
+- [X] T006 [P] Implement password hashing and JWT utility functions in `app/core/security.py` using `passlib.context.CryptContext(schemes=["bcrypt"])` and `pyjwt` (HS256) per Constitution Article IV.1 and IV.2
+- [X] T007 [P] Implement SQLAlchemy database engine, session factory, `Base` declarative class, and `get_db` generator dependency in `app/database.py` with SQLite conditional `connect_args={"check_same_thread": False}` per Constitution Article III.2
+- [X] T008 [P] Define `CategoriaGasto` Enum with values `"comida"`, `"transporte"`, `"entretenimiento"`, `"otros"` and `CATEGORIAS_VALIDAS` set in `app/models/enums.py` per `specs/001-control-gastos/data-model.md`
+- [X] T009 [P] Implement pure helper utility functions in `app/utils/helpers.py` without importing services, routers, or repositories per Constitution Article I.4
+- [X] T010 Setup Alembic migration environment in `alembic.ini` and `alembic/env.py` configured to target `app.database.Base.metadata`
+- [X] T011 [P] Create shared test fixtures in `tests/conftest.py` providing an isolated in-memory SQLite database session (`sqlite:///:memory:`) and FastAPI `TestClient` per Constitution Article VII.4
 
 **Checkpoint**: Foundation ready — user story implementation can now begin.
 
