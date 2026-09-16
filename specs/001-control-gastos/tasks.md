@@ -140,10 +140,10 @@ description: "Task list for Sistema de Control de Gastos Personales implementati
 
 **Purpose**: Application assembly, database migrations, global exception safety, validation runs, and mandatory test coverage enforcement.
 
-- [ ] T036 Assemble FastAPI application in `app/main.py` configuring app lifespan, registering global exception handler for unhandled `Exception` returning status 500 with `{"detail": "Error interno del servidor"}` and logging detail internally per Constitution Article IV.5, including routers `usuarios.router` and `gastos.router`, and mounting the MCP server at `/mcp`
-- [ ] T037 Generate initial Alembic migration script in `alembic/versions/001_initial_schema.py` creating tables `usuarios` and `gastos` with foreign key constraints, checks, and indexes per `specs/001-control-gastos/data-model.md`
-- [ ] T038 Execute manual and automated end-to-end validation scenarios documented in `specs/001-control-gastos/quickstart.md`
-- [ ] T039 Execute test suite with coverage report `pytest --cov=app --cov-report=term-missing` and verify that coverage meets Constitution Article VII.3 thresholds: 100% of business rules covered, ≥ 90% lines in `app/services/`, and ≥ 80% lines in `app/services/ + app/repositories/ + app/routers/ + app/utils/`
+- [X] T036 Assemble FastAPI application in `app/main.py` configuring app lifespan, registering global exception handler for unhandled `Exception` returning status 500 with `{"detail": "Error interno del servidor"}` and logging detail internally per Constitution Article IV.5, including routers `usuarios.router` and `gastos.router`, and mounting the MCP server at `/mcp`
+- [X] T037 Generate initial Alembic migration script in `alembic/versions/001_initial_schema.py` creating tables `usuarios` and `gastos` with foreign key constraints, checks, and indexes per `specs/001-control-gastos/data-model.md`
+- [X] T038 Execute manual and automated end-to-end validation scenarios documented in `specs/001-control-gastos/quickstart.md`
+- [X] T039 Execute test suite with coverage report `pytest --cov=app --cov-report=term-missing` and verify that coverage meets Constitution Article VII.3 thresholds: 100% of business rules covered, ≥ 90% lines in `app/services/`, and ≥ 80% lines in `app/services/ + app/repositories/ + app/routers/ + app/utils/`
 
 ---
 
