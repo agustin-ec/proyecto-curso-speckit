@@ -50,3 +50,18 @@ def test_get_current_user_user_not_found(db_session: Session):
         get_current_user(token=token, db=db_session)
     assert exc_info.value.status_code == status.HTTP_401_UNAUTHORIZED
     assert "Credenciales inválidas" in exc_info.value.detail
+
+
+def test_get_gastos_repo():
+    """Verify get_gastos_repo returns the app.repositories.gastos module."""
+    import inspect
+    from app.dependencies import get_gastos_repo
+    from app.repositories import gastos as expected_repo
+
+    repo = get_gastos_repo()
+    assert repo is expected_repo
+    assert inspect.ismodule(repo)
+    assert hasattr(repo, "guardar")
+    assert hasattr(repo, "total_por_categoria")
+    assert hasattr(repo, "listar")
+

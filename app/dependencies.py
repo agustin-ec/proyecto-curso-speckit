@@ -36,3 +36,11 @@ def get_current_user(
         raise credentials_exception
 
     return user
+
+
+def get_gastos_repo():
+    """Return gastos repository module for dependency injection (Constitution Article VIII.1)."""
+    from app.repositories import gastos as gastos_repo
+
+    return gastos_repo
+
