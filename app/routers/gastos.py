@@ -1,6 +1,6 @@
 """Expense management router (Constitution Article III.3, V.1, and VIII.1)."""
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -36,17 +36,14 @@ def crear_gasto(
 
 @router.get("/", response_model=list[GastoOut])
 def listar_gastos(
-    skip: int = 0,
-    limit: int = 20,
+    skip: int = Query(default=0, ge=0, description="Número de registros a omitir"),
+    limit: int = Query(default=20, gt=0, le=100, description="Número máximo de registros a obtener"),
     db: Session = Depends(get_db),
     usuario_actual: Usuario = Depends(get_current_user),
     repo=Depends(get_gastos_repo),
 ) -> list[dict]:
     """List expenses for authenticated user with pagination."""
-    if skip < 0:
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="skip debe ser >= 0")
-    if limit <= 0:
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="limit debe ser > 0")
     return gastos_service.listar_gastos(
         db, usuario_actual.id, skip=skip, limit=limit, repo=repo
     )
+

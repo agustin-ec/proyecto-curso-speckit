@@ -103,14 +103,14 @@ description: "Task list for Sistema de Control de Gastos Personales implementati
 
 ### Tests for User Story 3
 
-- [ ] T027 [P] [US3] Add unit and integration tests for `listar_gastos` pagination and user isolation in `tests/test_gastos.py` and `tests/test_integracion_gastos.py`
-- [ ] T028 [P] [US3] Add API tests for `GET /gastos/` in `tests/test_api_gastos.py` verifying status 200, query params `skip` and `limit`, validation error 422 on negative skip, and strict user isolation ignoring external user ID params
+- [X] T027 [P] [US3] Add unit and integration tests for `listar_gastos` pagination and user isolation in `tests/test_gastos.py` and `tests/test_integracion_gastos.py`
+- [X] T028 [P] [US3] Add API tests for `GET /gastos/` in `tests/test_api_gastos.py` verifying status 200, query params `skip` and `limit`, validation error 422 on negative skip, and strict user isolation ignoring external user ID params
 
 ### Implementation for User Story 3
 
-- [ ] T029 [US3] Implement `listar(db, usuario_id: int, skip: int = 0, limit: int = 20) -> list[dict]` in `app/repositories/gastos.py` filtering strictly by `usuario_id` with `offset(skip).limit(limit)` returning a list of dicts per Constitution Article VIII.1
-- [ ] T030 [US3] Implement `listar_gastos(db, usuario_id: int, skip: int = 0, limit: int = 20, repo=gastos_repository) -> list[dict]` in `app/services/gastos.py` with default DIP parameter per Constitution Article II.3 and VIII.1
-- [ ] T031 [US3] Implement `GET /gastos/` endpoint in `app/routers/gastos.py` accepting query parameters `skip: int = 0 (ge=0)` and `limit: int = 20 (gt=0)`, resolving `usuario_id` from `get_current_user`, and returning `list[GastoOut]` per `specs/001-control-gastos/contracts/rest-api.md`
+- [X] T029 [US3] Implement `listar(db, usuario_id: int, skip: int = 0, limit: int = 20) -> list[dict]` in `app/repositories/gastos.py` filtering strictly by `usuario_id` with `offset(skip).limit(limit)` returning a list of dicts per Constitution Article VIII.1
+- [X] T030 [US3] Implement `listar_gastos(db, usuario_id: int, skip: int = 0, limit: int = 20, repo=gastos_repository) -> list[dict]` in `app/services/gastos.py` with default DIP parameter per Constitution Article II.3 and VIII.1
+- [X] T031 [US3] Implement `GET /gastos/` endpoint in `app/routers/gastos.py` accepting query parameters `skip: int = 0 (ge=0)` and `limit: int = 20 (gt=0)`, resolving `usuario_id` from `get_current_user`, and returning `list[GastoOut]` per `specs/001-control-gastos/contracts/rest-api.md`
 
 **Checkpoint**: User Stories 1, 2, and 3 are fully operational and testable independently.
 

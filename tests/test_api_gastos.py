@@ -96,3 +96,62 @@ def test_error_no_controlado_devuelve_500_sin_stacktrace(client):
 
     assert response.status_code == 500
     assert response.json() == {"detail": "Error interno del servidor"}
+
+
+def test_listar_gastos_api_exitoso(client):
+    repo = RepositorioFalso()
+    repo.guardar(None, 1, "Almuerzo", 15.0, "comida")
+    repo.guardar(None, 2, "Gasto Otro Usuario", 50.0, "comida")
+    app.dependency_overrides[get_gastos_repo] = lambda: repo
+
+    response = client.get("/gastos/")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["descripcion"] == "Almuerzo"
+    assert data[0]["usuario_id"] == 1
+
+
+def test_listar_gastos_api_paginacion(client):
+    repo = RepositorioFalso()
+    for i in range(5):
+        repo.guardar(None, 1, f"Item {i}", 10.0, "comida")
+    app.dependency_overrides[get_gastos_repo] = lambda: repo
+
+    response = client.get("/gastos/?skip=2&limit=2")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 2
+    assert data[0]["descripcion"] == "Item 2"
+    assert data[1]["descripcion"] == "Item 3"
+
+
+def test_listar_gastos_api_skip_negativo(client):
+    repo = RepositorioFalso()
+    app.dependency_overrides[get_gastos_repo] = lambda: repo
+
+    response = client.get("/gastos/?skip=-1")
+    assert response.status_code == 422
+
+
+def test_listar_gastos_api_aislamiento_ignora_usuario_externo(client):
+    repo = RepositorioFalso()
+    repo.guardar(None, 1, "Mi gasto", 10.0, "comida")
+    repo.guardar(None, 999, "Gasto de otro", 100.0, "comida")
+    app.dependency_overrides[get_gastos_repo] = lambda: repo
+
+    # Sending ?usuario_id=999 must NOT expose other user's data
+    response = client.get("/gastos/?usuario_id=999")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["descripcion"] == "Mi gasto"
+    assert data[0]["usuario_id"] == 1
+
+
+def test_listar_gastos_api_sin_autenticacion():
+    app.dependency_overrides.clear()
+    with TestClient(app, raise_server_exceptions=False) as unauth_client:
+        response = unauth_client.get("/gastos/")
+        assert response.status_code == 401
+

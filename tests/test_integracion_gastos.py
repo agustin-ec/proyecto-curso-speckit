@@ -44,3 +44,37 @@ def test_limite_por_categoria_integracion(db_session):
 
     with pytest.raises(gastos_service.LimiteExcedidoError):
         gastos_service.registrar_gasto(db_session, usuario.id, "Gasto 2", 50.0, "comida", repo=gastos_repository)
+
+
+def test_listar_gastos_paginacion_integracion(db_session):
+    usuario = usuarios_repository.guardar(db_session, "paginacion@ejemplo.com", "hash-de-prueba")
+    for i in range(5):
+        gastos_service.registrar_gasto(
+            db_session, usuario.id, f"Gasto {i}", 10.0, "comida", repo=gastos_repository
+        )
+
+    gastos_pagina = gastos_service.listar_gastos(
+        db_session, usuario.id, skip=2, limit=2, repo=gastos_repository
+    )
+    assert len(gastos_pagina) == 2
+    assert gastos_pagina[0]["descripcion"] == "Gasto 2"
+    assert gastos_pagina[1]["descripcion"] == "Gasto 3"
+
+
+def test_listar_gastos_aislamiento_usuarios_integracion(db_session):
+    u1 = usuarios_repository.guardar(db_session, "aisla1@ejemplo.com", "hash-de-prueba")
+    u2 = usuarios_repository.guardar(db_session, "aisla2@ejemplo.com", "hash-de-prueba")
+
+    gastos_service.registrar_gasto(db_session, u1.id, "Gasto de U1", 20.0, "comida", repo=gastos_repository)
+    gastos_service.registrar_gasto(db_session, u2.id, "Gasto de U2", 35.0, "transporte", repo=gastos_repository)
+
+    gastos_u1 = gastos_service.listar_gastos(db_session, u1.id, repo=gastos_repository)
+    assert len(gastos_u1) == 1
+    assert gastos_u1[0]["descripcion"] == "Gasto de U1"
+    assert gastos_u1[0]["usuario_id"] == u1.id
+
+    gastos_u2 = gastos_service.listar_gastos(db_session, u2.id, repo=gastos_repository)
+    assert len(gastos_u2) == 1
+    assert gastos_u2[0]["descripcion"] == "Gasto de U2"
+    assert gastos_u2[0]["usuario_id"] == u2.id
+

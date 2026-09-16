@@ -76,3 +76,25 @@ def test_listar_gastos_pagination_and_isolation(db_session):
     assert len(paginados) == 2
     assert paginados[0]["descripcion"] == "Gasto 2"
     assert paginados[1]["descripcion"] == "Gasto 3"
+
+
+def test_listar_gastos_cross_user_isolation(db_session):
+    """Verify listar never leaks expenses from another user."""
+    u1 = Usuario(email="user1_repo@ejemplo.com", hashed_password="pwd")
+    u2 = Usuario(email="user2_repo@ejemplo.com", hashed_password="pwd")
+    db_session.add_all([u1, u2])
+    db_session.commit()
+
+    gastos_repo.guardar(db_session, u1.id, "Gasto User 1", 10.0, "comida")
+    gastos_repo.guardar(db_session, u2.id, "Gasto User 2", 20.0, "transporte")
+
+    gastos_u1 = gastos_repo.listar(db_session, u1.id)
+    assert len(gastos_u1) == 1
+    assert gastos_u1[0]["descripcion"] == "Gasto User 1"
+    assert gastos_u1[0]["usuario_id"] == u1.id
+
+    gastos_u2 = gastos_repo.listar(db_session, u2.id)
+    assert len(gastos_u2) == 1
+    assert gastos_u2[0]["descripcion"] == "Gasto User 2"
+    assert gastos_u2[0]["usuario_id"] == u2.id
+
