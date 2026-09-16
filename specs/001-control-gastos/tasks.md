@@ -56,15 +56,15 @@ description: "Task list for Sistema de Control de Gastos Personales implementati
 
 ### Tests for User Story 1
 
-- [ ] T012 [P] [US1] Create unit and API test suite in `tests/test_usuarios.py` covering user creation, password hashing verification, duplicate email rejection (400), token issuance (200), and invalid credentials rejection (401)
+- [X] T012 [P] [US1] Create unit and API test suite in `tests/test_usuarios.py` covering user creation, password hashing verification, duplicate email rejection (400), token issuance (200), and invalid credentials rejection (401)
 
 ### Implementation for User Story 1
 
-- [ ] T013 [P] [US1] Implement `Usuario` SQLAlchemy model in `app/models/usuario.py` with fields `id` (PK), `email` (String 255, unique, index, not null), `hashed_password` (String 255, not null), and constructor supporting `Usuario(id=, email=, hashed_password=)` per Constitution Article VIII.1
-- [ ] T014 [P] [US1] Implement Pydantic schemas in `app/schemas/usuario.py` for `UsuarioCreate` (`email: EmailStr`, `password: str min_length=6`), `UsuarioOut` (`id: int`, `email: EmailStr`), and `Token` (`access_token: str`, `token_type: str`) per `specs/001-control-gastos/contracts/rest-api.md`
-- [ ] T015 [US1] Implement functional user repository in `app/repositories/usuarios.py` with functions `obtener_por_email(db, email: str) -> Usuario | None` and `guardar(db, email: str, hashed_password: str) -> Usuario` per Constitution Article VIII.1
-- [ ] T016 [US1] Implement authentication dependency `get_current_user` in `app/dependencies.py` decoding JWT with `pyjwt`, extracting `sub` claim as email, and retrieving `Usuario` from repository (raising 401 if missing or invalid) per Constitution Article IV.4
-- [ ] T017 [US1] Implement user router in `app/routers/usuarios.py` exposing `POST /usuarios/` (status 201, returning `UsuarioOut`) and `POST /usuarios/token` (using `OAuth2PasswordRequestForm`, returning `Token`) per `specs/001-control-gastos/contracts/rest-api.md`
+- [X] T013 [P] [US1] Implement `Usuario` SQLAlchemy model in `app/models/usuario.py` with fields `id` (PK), `email` (String 255, unique, index, not null), `hashed_password` (String 255, not null), and constructor supporting `Usuario(id=, email=, hashed_password=)` per Constitution Article VIII.1
+- [X] T014 [P] [US1] Implement Pydantic schemas in `app/schemas/usuario.py` for `UsuarioCreate` (`email: EmailStr`, `password: str min_length=6`), `UsuarioOut` (`id: int`, `email: EmailStr`), and `Token` (`access_token: str`, `token_type: str`) per `specs/001-control-gastos/contracts/rest-api.md`
+- [X] T015 [US1] Implement functional user repository in `app/repositories/usuarios.py` with functions `obtener_por_email(db, email: str) -> Usuario | None` and `guardar(db, email: str, hashed_password: str) -> Usuario` per Constitution Article VIII.1
+- [X] T016 [US1] Implement authentication dependency `get_current_user` in `app/dependencies.py` decoding JWT with `pyjwt`, extracting `sub` claim as email, and retrieving `Usuario` from repository (raising 401 if missing or invalid) per Constitution Article IV.4
+- [X] T017 [US1] Implement user router in `app/routers/usuarios.py` exposing `POST /usuarios/` (status 201, returning `UsuarioOut`) and `POST /usuarios/token` (using `OAuth2PasswordRequestForm`, returning `Token`) per `specs/001-control-gastos/contracts/rest-api.md`
 
 **Checkpoint**: User Story 1 is fully functional and testable independently.
 

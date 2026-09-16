@@ -7,6 +7,8 @@ from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import StaticPool
 
 from app.database import Base
+# Import models so Base.metadata is populated for create_all
+import app.models  # noqa: F401
 
 
 @pytest.fixture(scope="function")
