@@ -81,7 +81,7 @@ Como agente o asistente de IA integrado mediante Model Context Protocol (MCP), d
 
 ### Edge Cases
 
-- **Monto límite exacto**: Un gasto que cause que el acumulado en una categoría llegue a exactamente 500.00 DEBE ser aceptado; solo se rechaza si el acumulado resultante es estrictamente mayor a 500.00.
+- **Monto límite exacto (acumulado = 500.00)**: Si un gasto lleva el total acumulado de una categoría a exactamente 500.00 (ej. acumulado previo 400.00 + gasto 100.00 = 500.00), ESTÁ PERMITIDO y NO cuenta como excedido. El sistema DEBE aceptarlo y persistirlo con código `201`. Se considera excedido ÚNICAMENTE si el total acumulado resultante es estrictamente mayor a 500.00 (`acumulado + monto > 500.00`, ej. 500.01).
 - **Monto en cero o negativo**: Cualquier valor `<= 0` en el campo monto DEBE ser rechazado inmediatamente.
 - **Descripción en blanco**: Cadenas compuestas exclusivamente por espacios en blanco o vacías DEBEN ser rechazadas como inválidas.
 - **Solicitud sin token**: Cualquier llamada a endpoints o tools que requieran autenticación sin token o con token expirado/inválido DEBE responder inmediatamente con `401 Unauthorized`.
@@ -98,7 +98,7 @@ Como agente o asistente de IA integrado mediante Model Context Protocol (MCP), d
 - **FR-004**: El sistema DEBE validar que toda solicitud a rutas protegidas (`/gastos/`) contenga un token JWT válido, respondiendo con `401` en caso contrario.
 - **FR-005**: El sistema DEBE permitir registrar gastos con `descripcion` no vacía, `monto` numérico mayor a cero y `categoria` válida.
 - **FR-006**: El sistema DEBE restringir las categorías permitidas estrictamente al conjunto: `comida`, `transporte`, `entretenimiento`, `otros`. Cualquier otro valor DEBE generar un error de negocio (`CategoriaInvalidaError` / `400`).
-- **FR-007**: El sistema DEBE calcular el monto total acumulado por categoría para el usuario y rechazar (`LimiteExcedidoError` / `400`) cualquier gasto que haga que el total acumulado en dicha categoría sea mayor a `500.0`.
+- **FR-007**: El sistema DEBE calcular el monto total acumulado por categoría para el usuario y rechazar (`LimiteExcedidoError` / `400`) cualquier gasto que haga que el total acumulado en dicha categoría sea estrictamente mayor a `500.0` (`total_acumulado + monto > 500.0`). Si el total acumulado resultante es menor o igual a `500.0` (`total_acumulado + monto <= 500.0`), el gasto ESTÁ PERMITIDO y DEBE ser aceptado.
 - **FR-008**: El sistema DEBE garantizar el aislamiento total de datos: un usuario solo puede crear y visualizar sus propios gastos, derivando el `usuario_id` exclusivamente del token JWT decodificado.
 - **FR-009**: El sistema DEBE soportar listado paginado de gastos mediante los parámetros `skip` (por defecto 0) y `limit` (por defecto 20).
 - **FR-010**: El sistema DEBE exponer herramientas MCP (`registrar_gasto`, `listar_gastos`) que deleguen su ejecución a los mismos servicios de dominio, retornando errores estructurados `{"error": "..."}` ante fallos de negocio.
@@ -173,13 +173,13 @@ La suite de tests heredada de las Sesiones 6-8 (`test_gastos.py`, `test_integrac
 
 1. Registrar gasto con monto negativo o cero (`<= 0`).
 2. Registrar gasto con categoría inexistente o no autorizada.
-3. Registrar gasto que ocasione que el total acumulado en su categoría supere el límite de `500.0`.
+3. Registrar gasto que ocasione que el total acumulado en su categoría supere estrictamente el límite de `500.0` (`acumulado > 500.0`, ej. 500.01) debe fallar con `400 LimiteExcedidoError`; mientras que llevar el acumulado a exactamente `500.0` debe ser exitoso (`201`).
 4. Listar o registrar gastos sin token de autenticación (`401 Unauthorized`).
 5. Listar gastos enviando identificador de otro usuario manualmente (debe ignorarse completamente, nunca filtrar por ese ID).
 
 ## Assumptions
 
-- El límite de 500 por categoría aplica sobre la suma de gastos acumulados del usuario en el alcance actual del sistema.
+- El límite de 500 por categoría aplica sobre la suma de gastos acumulados del usuario en el alcance actual del sistema; un acumulado resultante de exactamente 500.00 está permitido y solo valores estrictamente mayores a 500.00 se consideran excedidos.
 - Las categorías válidas están definidas en un Enum / tupla cerrada: `{"comida", "transporte", "entretenimiento", "otros"}`.
 - La base de datos es SQLite para desarrollo y pruebas, compatible con PostgreSQL sin alterar capas superiores.
 - Los montos numéricos operan con precisión de punto flotante/decimal estándar.
