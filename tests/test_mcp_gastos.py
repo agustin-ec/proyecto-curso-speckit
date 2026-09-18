@@ -6,7 +6,6 @@ from app.core.config import settings
 from app.core.security import create_access_token
 from app.mcp.auth import JWTTokenVerifier
 from app.mcp.tools import gastos as mcp_gastos
-from app.models.usuario import Usuario
 from app.repositories import usuarios as usuarios_repo
 from mcp.server.auth.provider import AccessToken
 

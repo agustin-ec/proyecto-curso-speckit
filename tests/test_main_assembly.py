@@ -1,6 +1,5 @@
 """Tests for app/main.py assembly (Constitution Article IV.5, V, and VI)."""
 
-import pytest
 from starlette.testclient import TestClient
 from app.main import app
 

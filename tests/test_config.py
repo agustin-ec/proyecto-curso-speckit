@@ -1,6 +1,5 @@
 """Test application configuration and settings (T005)."""
 
-import os
 from app.core.config import Settings, settings
 
 
