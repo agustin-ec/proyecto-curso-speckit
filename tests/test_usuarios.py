@@ -23,7 +23,7 @@ def test_registro_usuario_exitoso(client):
         "/usuarios/",
         json={"email": "nuevo_usuario@ejemplo.com", "password": "PasswordSeguro123"},
     )
-    assert response.status_code == 201
+    assert response.status_code == 999
     data = response.json()
     assert data["email"] == "nuevo_usuario@ejemplo.com"
     assert "id" in data
