@@ -19,7 +19,7 @@ jobs:
           version: "latest"
 
       - name: Instalar dependencias
-        run: uv sync --frozen
+        run: uv sync --frozen --extra dev
         
       - name: Lint con ruff
         run: uv run ruff check .
