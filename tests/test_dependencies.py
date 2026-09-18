@@ -7,7 +7,6 @@ from sqlalchemy.orm import Session
 
 from app.core.security import create_access_token, get_password_hash
 from app.dependencies import get_current_user
-from app.models.usuario import Usuario
 from app.repositories import usuarios as usuarios_repo
 
 

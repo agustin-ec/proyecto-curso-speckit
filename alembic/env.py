@@ -1,3 +1,5 @@
+import os
+
 from logging.config import fileConfig
 import sys
 from pathlib import Path
@@ -22,9 +24,14 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# Set database URL dynamically from app settings if not already set
-if not config.get_main_option("sqlalchemy.url"):
-    config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+# Si DATABASE_URL está definida como variable de entorno del sistema
+# (Docker, CI con esa variable exportada), tiene prioridad absoluta.
+# Si no está definida (pytest local, o un test que configura su propia
+# URL temporal, como test_migration.py), se respeta lo que ya esté
+# configurado en el objeto Config.
+database_url_env = os.environ.get("DATABASE_URL")
+if database_url_env:
+    config.set_main_option("sqlalchemy.url", database_url_env)
 
 # add your model's MetaData object here
 # for 'autogenerate' support

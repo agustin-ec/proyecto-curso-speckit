@@ -1,7 +1,6 @@
 """Test project directory and package structure (T001)."""
 
 import importlib
-import os
 import sys
 from pathlib import Path
 

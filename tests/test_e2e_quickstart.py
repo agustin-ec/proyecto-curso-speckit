@@ -8,7 +8,6 @@ Executes all automated and manual validation scenarios documented in Sections 4 
 """
 
 from unittest.mock import patch
-import pytest
 from starlette.testclient import TestClient
 
 from app.database import get_db

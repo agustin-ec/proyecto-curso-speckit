@@ -2,7 +2,6 @@
 
 import os
 import tempfile
-import pytest
 from alembic.config import Config
 from alembic import command
 from sqlalchemy import create_engine, inspect

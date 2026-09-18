@@ -1,7 +1,6 @@
 """Unit and API test suite for User Story 1: User Registration and Authentication (T012)."""
 
 import pytest
-from httpx import AsyncClient, ASGITransport
 from starlette.testclient import TestClient
 
 from app.database import get_db
