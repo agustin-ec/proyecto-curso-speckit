@@ -22,9 +22,9 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# Set database URL dynamically from app settings if not already set
-if not config.get_main_option("sqlalchemy.url"):
-    config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+# Siempre usar la URL de conexión definida en app.core.config,
+# nunca la de alembic.ini (que solo queda como referencia local).
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
